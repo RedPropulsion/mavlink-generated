@@ -1155,45 +1155,44 @@ static void mavlink_test_set_apogee_timeout_tc(uint8_t system_id, uint8_t compon
 #endif
 }
 
-static void mavlink_test_set_atomic_valve_timing_tc(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+static void mavlink_test_do_fire_pyro(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
     mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
-        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_SET_ATOMIC_VALVE_TIMING_TC >= 256) {
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_DO_FIRE_PYRO >= 256) {
             return;
         }
 #endif
     mavlink_message_t msg;
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
-    mavlink_set_atomic_valve_timing_tc_t packet_in = {
-        963497464,17
+    mavlink_do_fire_pyro_t packet_in = {
+        5
     };
-    mavlink_set_atomic_valve_timing_tc_t packet1, packet2;
+    mavlink_do_fire_pyro_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
-        packet1.maximum_timing = packet_in.maximum_timing;
-        packet1.servo_id = packet_in.servo_id;
+        packet1.charge_channel = packet_in.charge_channel;
         
         
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
         if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
            // cope with extensions
-           memset(MAVLINK_MSG_ID_SET_ATOMIC_VALVE_TIMING_TC_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_SET_ATOMIC_VALVE_TIMING_TC_MIN_LEN);
+           memset(MAVLINK_MSG_ID_DO_FIRE_PYRO_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_DO_FIRE_PYRO_MIN_LEN);
         }
 #endif
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_atomic_valve_timing_tc_encode(system_id, component_id, &msg, &packet1);
-    mavlink_msg_set_atomic_valve_timing_tc_decode(&msg, &packet2);
+    mavlink_msg_do_fire_pyro_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_do_fire_pyro_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_atomic_valve_timing_tc_pack(system_id, component_id, &msg , packet1.servo_id , packet1.maximum_timing );
-    mavlink_msg_set_atomic_valve_timing_tc_decode(&msg, &packet2);
+    mavlink_msg_do_fire_pyro_pack(system_id, component_id, &msg , packet1.charge_channel );
+    mavlink_msg_do_fire_pyro_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_atomic_valve_timing_tc_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.servo_id , packet1.maximum_timing );
-    mavlink_msg_set_atomic_valve_timing_tc_decode(&msg, &packet2);
+    mavlink_msg_do_fire_pyro_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.charge_channel );
+    mavlink_msg_do_fire_pyro_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
@@ -1201,77 +1200,17 @@ static void mavlink_test_set_atomic_valve_timing_tc(uint8_t system_id, uint8_t c
         for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
             comm_send_ch(MAVLINK_COMM_0, buffer[i]);
         }
-    mavlink_msg_set_atomic_valve_timing_tc_decode(last_msg, &packet2);
+    mavlink_msg_do_fire_pyro_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_atomic_valve_timing_tc_send(MAVLINK_COMM_1 , packet1.servo_id , packet1.maximum_timing );
-    mavlink_msg_set_atomic_valve_timing_tc_decode(last_msg, &packet2);
+    mavlink_msg_do_fire_pyro_send(MAVLINK_COMM_1 , packet1.charge_channel );
+    mavlink_msg_do_fire_pyro_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
 #ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
-    MAVLINK_ASSERT(mavlink_get_message_info_by_name("SET_ATOMIC_VALVE_TIMING_TC") != NULL);
-    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_SET_ATOMIC_VALVE_TIMING_TC) != NULL);
-#endif
-}
-
-static void mavlink_test_set_valve_maximum_aperture_tc(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
-{
-#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
-    mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
-        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_SET_VALVE_MAXIMUM_APERTURE_TC >= 256) {
-            return;
-        }
-#endif
-    mavlink_message_t msg;
-        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
-        uint16_t i;
-    mavlink_set_valve_maximum_aperture_tc_t packet_in = {
-        17.0,17
-    };
-    mavlink_set_valve_maximum_aperture_tc_t packet1, packet2;
-        memset(&packet1, 0, sizeof(packet1));
-        packet1.maximum_aperture = packet_in.maximum_aperture;
-        packet1.servo_id = packet_in.servo_id;
-        
-        
-#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
-        if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-           // cope with extensions
-           memset(MAVLINK_MSG_ID_SET_VALVE_MAXIMUM_APERTURE_TC_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_SET_VALVE_MAXIMUM_APERTURE_TC_MIN_LEN);
-        }
-#endif
-        memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_valve_maximum_aperture_tc_encode(system_id, component_id, &msg, &packet1);
-    mavlink_msg_set_valve_maximum_aperture_tc_decode(&msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-
-        memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_valve_maximum_aperture_tc_pack(system_id, component_id, &msg , packet1.servo_id , packet1.maximum_aperture );
-    mavlink_msg_set_valve_maximum_aperture_tc_decode(&msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-
-        memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_valve_maximum_aperture_tc_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.servo_id , packet1.maximum_aperture );
-    mavlink_msg_set_valve_maximum_aperture_tc_decode(&msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-
-        memset(&packet2, 0, sizeof(packet2));
-        mavlink_msg_to_send_buffer(buffer, &msg);
-        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
-            comm_send_ch(MAVLINK_COMM_0, buffer[i]);
-        }
-    mavlink_msg_set_valve_maximum_aperture_tc_decode(last_msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-        
-        memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_set_valve_maximum_aperture_tc_send(MAVLINK_COMM_1 , packet1.servo_id , packet1.maximum_aperture );
-    mavlink_msg_set_valve_maximum_aperture_tc_decode(last_msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-
-#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
-    MAVLINK_ASSERT(mavlink_get_message_info_by_name("SET_VALVE_MAXIMUM_APERTURE_TC") != NULL);
-    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_SET_VALVE_MAXIMUM_APERTURE_TC) != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("DO_FIRE_PYRO") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_DO_FIRE_PYRO) != NULL);
 #endif
 }
 
@@ -3517,8 +3456,7 @@ static void mavlink_test_RedAster(uint8_t system_id, uint8_t component_id, mavli
     mavlink_test_set_calibration_pressure_tc(system_id, component_id, last_msg);
     mavlink_test_set_ada_shadow_mode_time_tc(system_id, component_id, last_msg);
     mavlink_test_set_apogee_timeout_tc(system_id, component_id, last_msg);
-    mavlink_test_set_atomic_valve_timing_tc(system_id, component_id, last_msg);
-    mavlink_test_set_valve_maximum_aperture_tc(system_id, component_id, last_msg);
+    mavlink_test_do_fire_pyro(system_id, component_id, last_msg);
     mavlink_test_set_antenna_coordinates_arp_tc(system_id, component_id, last_msg);
     mavlink_test_set_rocket_coordinates_arp_tc(system_id, component_id, last_msg);
     mavlink_test_arp_command_tc(system_id, component_id, last_msg);

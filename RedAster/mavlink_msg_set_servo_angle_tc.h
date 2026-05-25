@@ -5,8 +5,8 @@
 
 
 typedef struct __mavlink_set_servo_angle_tc_t {
- float angle; /*<  Servo angle in normalized value [0-1]*/
- uint8_t servo_id; /*<  A member of the ServosList enum*/
+ float angle; /*<  Servo angle in degrees*/
+ uint8_t servo_id; /*< [deg] A member of the ServosList enum*/
 } mavlink_set_servo_angle_tc_t;
 
 #define MAVLINK_MSG_ID_SET_SERVO_ANGLE_TC_LEN 5
@@ -44,8 +44,8 @@ typedef struct __mavlink_set_servo_angle_tc_t {
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param servo_id  A member of the ServosList enum
- * @param angle  Servo angle in normalized value [0-1]
+ * @param servo_id [deg] A member of the ServosList enum
+ * @param angle  Servo angle in degrees
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_set_servo_angle_tc_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
@@ -76,8 +76,8 @@ static inline uint16_t mavlink_msg_set_servo_angle_tc_pack(uint8_t system_id, ui
  * @param status MAVLink status structure
  * @param msg The MAVLink message to compress the data into
  *
- * @param servo_id  A member of the ServosList enum
- * @param angle  Servo angle in normalized value [0-1]
+ * @param servo_id [deg] A member of the ServosList enum
+ * @param angle  Servo angle in degrees
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_set_servo_angle_tc_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
@@ -111,8 +111,8 @@ static inline uint16_t mavlink_msg_set_servo_angle_tc_pack_status(uint8_t system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param servo_id  A member of the ServosList enum
- * @param angle  Servo angle in normalized value [0-1]
+ * @param servo_id [deg] A member of the ServosList enum
+ * @param angle  Servo angle in degrees
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_set_servo_angle_tc_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
@@ -182,8 +182,8 @@ static inline uint16_t mavlink_msg_set_servo_angle_tc_encode_status(uint8_t syst
  * @brief Send a set_servo_angle_tc message
  * @param chan MAVLink channel to send the message
  *
- * @param servo_id  A member of the ServosList enum
- * @param angle  Servo angle in normalized value [0-1]
+ * @param servo_id [deg] A member of the ServosList enum
+ * @param angle  Servo angle in degrees
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -252,7 +252,7 @@ static inline void mavlink_msg_set_servo_angle_tc_send_buf(mavlink_message_t *ms
 /**
  * @brief Get field servo_id from set_servo_angle_tc message
  *
- * @return  A member of the ServosList enum
+ * @return [deg] A member of the ServosList enum
  */
 static inline uint8_t mavlink_msg_set_servo_angle_tc_get_servo_id(const mavlink_message_t* msg)
 {
@@ -262,7 +262,7 @@ static inline uint8_t mavlink_msg_set_servo_angle_tc_get_servo_id(const mavlink_
 /**
  * @brief Get field angle from set_servo_angle_tc message
  *
- * @return  Servo angle in normalized value [0-1]
+ * @return  Servo angle in degrees
  */
 static inline float mavlink_msg_set_servo_angle_tc_get_angle(const mavlink_message_t* msg)
 {
